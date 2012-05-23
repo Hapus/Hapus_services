@@ -15,7 +15,8 @@ function _hapus_services_resource_access($op = 'create', $args=array()) {
 }
 
 
-function _hapus_services_resource_create($type, $resource,$key,$username){
+function _hapus_services_resource_create($type, $resource,$key,$username,
+  $parameters = " --dpi 200 --page-size A4 "){
 	$return = array($type,$resource);
   global $user;
 
@@ -109,8 +110,8 @@ function _hapus_services_resource_create($type, $resource,$key,$username){
     if(strtolower($type) == "url"){
       $sourceRealPath = $resource;
     }
-    $cmd =  'xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf --dpi 200  '.
-            '--page-size A4 '.$sourceRealPath.' '.$destinationRealPath;
+    $cmd =  'xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf  '.$parameters.
+            ' '.$sourceRealPath.' '.$destinationRealPath;
 
     exec($cmd);
     $destinationFileContents = file_get_contents($destinationRealPath);
