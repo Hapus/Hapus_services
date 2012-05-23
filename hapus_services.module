@@ -1,0 +1,97 @@
+<?php
+
+function hapus_services_permission() {
+      return array(
+        'Generate PDF' => array( 'title' => t('Create PDF'), 'description' =>
+          t('Enabling this permission for specific role it, users having that role will be able to create PDF using Hapus.')
+
+        ),
+        'Download PDF' => array( 'title' => t('Download PDF'), 'description' =>
+          t('Enabling this permission for specific role it, users having that role will be able to download PDF using Hapus.')
+
+        )
+      );
+    }
+
+ function hapus_services_services_resources() {
+    $definition =  array(
+       'sprintpdf' => array(
+          'retrieve' => array(
+          'help' => 'Retrieve user information',
+          'file' => array('type' => 'inc', 'module' => 'hapus_services', 'name' => 'hapus_services'),
+            'callback' => '_hapus_services_resource_retrieve',
+            'args' => array(
+              array(
+                'name' => 'username',
+                'optional' => FALSE,
+                'source' => array('path' => 0),
+                'type' => 'string',
+                'description' => 'Test argument 1.',
+              ),
+              array(
+                'name' => 'key',
+                'optional' => FALSE,
+                'source' => array('param' => "key"),
+                'type' => 'string',
+                'description' => 'Test argument 1.',
+              ),
+            ),
+            'access callback' => '_hapus_services_resource_access',
+            'access arguments' => array('Generate PDF'),
+            'access arguments append' => TRUE,
+          ),
+        'create' => array(
+            'file' => array('type' => 'inc', 'module' => 'hapus_services',
+            'name' => 'hapus_services'),
+            'help' => 'Generate the PDF',
+            'callback' => '_hapus_services_resource_create',
+            'args' => array(
+            array(
+                'name' => 'type',
+                'optional' => FALSE,
+                'source' => array('data' => 'type'),
+                'description' => 'The node data to create',
+                'type' => 'string',
+              ),
+            array(
+                'name' => 'resource',
+                'optional' => FALSE,
+                'source' => array('data' => 'resource'),
+                'description' => 'The node data to create',
+                'type' => 'string',
+              ),
+            array(
+                'name' => 'key',
+                'optional' => FALSE,
+                'source' => array('data' => 'key'),
+                'description' => 'The node data to create',
+                'type' => 'string',
+              ),
+            array(
+                'name' => 'username',
+                'optional' => FALSE,
+                'source' => array('data' => 'username'),
+                'description' => 'The node data to create',
+                'type' => 'string',
+              ),
+            ),
+            'access callback' => '_hapus_services_resource_access',
+            'access arguments' => array('Generate PDF'),
+            'access arguments append' => TRUE,
+          ),
+        'download' => array(
+        ),
+
+       )
+    );
+    $definition['sprintpdf']['actions']['generate'] =
+    array_merge($definition['sprintpdf']['create'],
+    array('help' => 'Generate the PDF'));
+
+  return $definition;
+}
+
+
+
+
+?>

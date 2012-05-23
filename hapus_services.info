@@ -1,0 +1,7 @@
+name = Hapus Services
+description = Adds REST based service resource to create and download PDF.
+core = 7.x
+version = "7.x-1.0"
+project = Hapus
+package = Hapus
+dependencies[] = services
