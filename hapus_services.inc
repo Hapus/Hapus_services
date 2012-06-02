@@ -170,7 +170,7 @@ function _hapus_services_resource_retrieve($username,$key){
 	$account = _user_resource_retrieve($user->uid);
   $profile= profile2_load_by_user($account,'main');
 
-  unset($profile->uid,$profile->pid);
+  unset($profile->uid,$profile->pid,$account->roles,$account->rdf_mapping);
   $account->account_details= $profile;
   return $account;
 
