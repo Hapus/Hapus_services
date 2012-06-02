@@ -107,6 +107,13 @@ function hapus_services_permission() {
                 'description' => 'The node data to create',
                 'type' => 'string',
               ),
+            array(
+                'name' => 'outputasfile',
+                'optional' => TRUE,
+                'source' => array('data' => 'outputasfile'),
+                'description' => 'The node data to create',
+                'type' => 'string',
+              ),
             ),
             'access callback' => '_hapus_services_resource_access',
             'access arguments' => array('Generate PDF'),

@@ -16,7 +16,7 @@ function _hapus_services_resource_access($op = 'create', $args=array()) {
 
 
 function _hapus_services_resource_create($type, $resource,$key,$username,
-  $parameters = " --dpi 200 --page-size A4 "){
+  $parameters = " --dpi 200 --page-size A4 ",$outputasfile = 0){
 	$return = array($type,$resource);
   global $user;
 
@@ -41,7 +41,7 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
   if($profile->field_user_monthly_limit[$user->language?$user->language:LANGUAGE_NONE][0]['value'] < ($count+1) ){
   	return services_error(t('You have exceeded your mothly limit.'), 403);
   }
- 
+
   if(strtolower($type) == "html"){
     $sourcefile->file = $resource;
       // If the file data is empty then bail
@@ -84,7 +84,7 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
     $destination = file_load_multiple(array(),
                   array("filename" => $hash.".pdf"));
     $destinationFile = array_shift($destination);
-    return _hapus_services_return_file($destinationFile);
+    return _hapus_services_return_file($destinationFile,$outputasfile);
     return array(
       'fid' => $destination[0],
       'uri' => services_resource_uri(array('file', $destination[0])),
@@ -139,13 +139,15 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
 
     $destinationFile->file = $destinationFileContents;
 
+
+
     // send the response
-    return _hapus_services_return_file($destinationFile);
+    return _hapus_services_return_file($destinationFile,$outputasfile);
   }
 	//return $return;
 }
 
-function _hapus_services_return_file($file){
+function _hapus_services_return_file($file,$outputasfile){
   $filepath = $file->uri;
 
   // Convert the uri to the external url path provided by the stream wrapper.
@@ -153,9 +155,18 @@ function _hapus_services_return_file($file){
 
   //return
   if(isset($file->file)){
+    if($outputasfile){
+      echo $file->file;
+      exit();
+    }
     $file->file =  base64_encode($file->file);
   }else{
-    $file->file = base64_encode(file_get_contents(drupal_realpath($filepath)));
+    $fileData = file_get_contents(drupal_realpath($filepath));
+    if($outputasfile){
+      echo $fileData;
+      exit();
+    }
+    $file->file = base64_encode($fileData);
   }
 
   // Provide a path in the form sample/test.txt.
