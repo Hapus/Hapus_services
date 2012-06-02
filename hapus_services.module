@@ -114,8 +114,8 @@ function hapus_services_permission() {
           ),
        )
     );
-    $definition['sprintpdf']['actions']['generate'] =
-    array_merge($definition['sprintpdf']['create'],
+    $definition['pdf']['actions']['generate'] =
+    array_merge($definition['pdf']['create'],
     array('help' => 'Generate the PDF'));
 
   return $definition;
