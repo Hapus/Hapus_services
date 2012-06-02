@@ -129,6 +129,13 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
     file_usage_add($destinationFile, 'services', 'files', $destinationFile->fid);
 
     $destinationFile->file = $destinationFileContents;
+
+    $usage = new stdClass();
+    $usage->type = 'usage';
+    $usage->uid = $user->uid;
+    $usage->field_usage_file = $destinationFile;
+    node_save($usage);
+
     // send the response
     return _hapus_services_return_file($destinationFile);
   }
