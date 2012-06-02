@@ -58,7 +58,7 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
 
   //Set the file name which will be the key to retrive file info in
   //the download process.
-  $hash = drupal_hash_base64($sourcefile->file );
+  $hash = drupal_hash_base64($sourcefile->file.$parameters);
   $sourcefile->filename =  $hash.".html" ;
   $sourcefile->uid = $user->uid;
 
