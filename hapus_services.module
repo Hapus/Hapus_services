@@ -15,7 +15,7 @@ function hapus_services_permission() {
 
  function hapus_services_services_resources() {
     $definition =  array(
-       'sprintpdf' => array(
+       'pdf' => array(
           'retrieve' => array(
           'help' => 'Retrieve user information',
           'file' => array('type' => 'inc', 'module' => 'hapus_services', 'name' => 'hapus_services'),
@@ -88,7 +88,30 @@ function hapus_services_permission() {
           ),
         'download' => array(
         ),
-
+        'user' => array(
+          'help' => 'Retrieve user information',
+          'file' => array('type' => 'inc', 'module' => 'hapus_services', 'name' => 'hapus_services'),
+            'callback' => '_hapus_services_resource_retrieve',
+            'args' => array(
+              array(
+                'name' => 'username',
+                'optional' => FALSE,
+                'source' => array('path' => 0),
+                'type' => 'string',
+                'description' => 'Test argument 1.',
+              ),
+              array(
+                'name' => 'key',
+                'optional' => FALSE,
+                'source' => array('param' => "key"),
+                'type' => 'string',
+                'description' => 'Test argument 1.',
+              ),
+            ),
+            'access callback' => '_hapus_services_resource_access',
+            'access arguments' => array('Generate PDF'),
+            'access arguments append' => TRUE,
+          ),
        )
     );
     $definition['sprintpdf']['actions']['generate'] =
