@@ -24,7 +24,7 @@ function hapus_services_permission() {
               array(
                 'name' => 'username',
                 'optional' => FALSE,
-                'source' => array('param' => "username"),
+                'source' => array('param' => 'username'),
                 'type' => 'string',
                 'description' => 'User name of registered user.',
               ),
