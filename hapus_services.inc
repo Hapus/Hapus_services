@@ -33,6 +33,15 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
         return services_error(t('Wrong username or key.'), 401);
     }
   }
+  $profile= profile2_load_by_user($user,'main');
+
+  $query = new EntityFieldQuery();
+  $count = $query->entityCondition('entity_type', 'file')->count()
+  ->propertyCondition('uid',$user->uid)->propertyCondition('timestamp',array( mktime(0,0,0,date('n'),01,date('Y')),mktime(0,0,0,((date('n')) + 1),0,date('Y'))) , 'BETWEEN' )->execute();
+  if($profile->field_user_monthly_limit[$user->language?$user->language:LANGUAGE_NONE][0]['value'] < ($count+1) ){
+  	return services_error(t('You have exceeded your mothly limit.'), 403);
+  }
+ 
   if(strtolower($type) == "html"){
     $sourcefile->file = $resource;
       // If the file data is empty then bail
@@ -129,12 +138,6 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
     file_usage_add($destinationFile, 'services', 'files', $destinationFile->fid);
 
     $destinationFile->file = $destinationFileContents;
-
-    $usage = new stdClass();
-    $usage->type = 'usage';
-    $usage->uid = $user->uid;
-    $usage->field_usage_file = $destinationFile;
-    node_save($usage);
 
     // send the response
     return _hapus_services_return_file($destinationFile);
