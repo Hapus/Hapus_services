@@ -69,7 +69,7 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
   $sourcefile->filepath = file_default_scheme() . '://' . $sourcefile->filename;
 
   $sourceRealPath =drupal_realpath($sourcefile->filepath);
-  if (is_file($sourceRealPath)) {
+  if (is_file($sourceRealPath)|| is_file(str_replace(".html",".pdf",$sourceRealPath))) {
       // Do something
     module_load_include("inc","file","file");
     $destination = file_load_multiple(array(),
