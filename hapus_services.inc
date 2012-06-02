@@ -167,7 +167,8 @@ function _hapus_services_resource_retrieve($username,$key){
     }
   }
 	module_load_include("inc","services","resources/user_resource");
-	return _user_resource_retrieve($user->uid);
+	$account = _user_resource_retrieve($user->uid);
+  return profile2_load_by_user($account);
 }
 
 
