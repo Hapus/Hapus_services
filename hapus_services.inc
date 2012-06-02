@@ -115,6 +115,8 @@ function _hapus_services_resource_create($type, $resource,$key,$username,
 
     exec($cmd);
     $destinationFileContents = file_get_contents($destinationRealPath);
+    $removeFileCmd = "rm -fr $destinationRealPath";
+    exec($removeFileCmd);
     $destinationFile->filemime = file_get_mimetype($destinationFile->filename);
     $destinationFile->file = $destinationFileContents;
     // Write the file
